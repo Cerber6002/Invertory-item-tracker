@@ -7,6 +7,8 @@ using namespace std;
 
 struct InventoryItem {
     string name;
+    string category;
+    int quantity;
     float price;
 };
 
@@ -34,25 +36,25 @@ int main() {
         cout << "Enter your choice: ";
         cin >> choice;
 
-        switch(choice) {
-            case '1':
-                addItem();
-                break;
-            case '2':
-                viewInventory();
-                break;
-            case '3':
-                updateItem();
-                break;
-            case '4':
-                deleteItem();
-                break;
-            case '5':
-                saveInventory(); // Save inventory data to file before exiting
-                cout << "Exiting...\n";
-                break;
-            default:
-                cout << "Invalid choice. Please try again.\n";
+        switch (choice) {
+        case '1':
+            addItem();
+            break;
+        case '2':
+            viewInventory();
+            break;
+        case '3':
+            updateItem();
+            break;
+        case '4':
+            deleteItem();
+            break;
+        case '5':
+            saveInventory(); // Save inventory data to file before exiting
+            cout << "Exiting...\n";
+            break;
+        default:
+            cout << "Invalid choice. Please try again.\n";
         }
     } while (choice != '5');
 
@@ -62,7 +64,7 @@ int main() {
 void loadInventory() {
     ifstream file("inventory.txt");
     InventoryItem item;
-    while (file >> item.name >> item.price) {
+    while (file >> item.name >> item.category >> item.quantity >> item.price) {
         inventory.push_back(item);
     }
     file.close();
@@ -71,7 +73,7 @@ void loadInventory() {
 void saveInventory() {
     ofstream file("inventory.txt");
     for (const auto& item : inventory) {
-        file << item.name << ' ' << item.price << '\n';
+        file << item.name << ' ' << item.category << ' ' << item.quantity << ' ' << item.price << '\n';
     }
     file.close();
 }
@@ -80,6 +82,10 @@ void addItem() {
     InventoryItem item;
     cout << "Enter item name: ";
     cin >> item.name;
+    cout << "Enter item category: ";
+    cin >> item.category;
+    cout << "Enter item quantity: ";
+    cin >> item.quantity;
     cout << "Enter item price: ";
     cin >> item.price;
     inventory.push_back(item);
@@ -93,7 +99,7 @@ void viewInventory() {
     }
     cout << "===== Inventory List =====\n";
     for (const auto& item : inventory) {
-        cout << "Name: " << item.name << ", Price: " << item.price << '\n';
+        cout << "Name: " << item.name << ", Category: " << item.category << ", Quantity: " << item.quantity << ", Price: " << item.price << '\n';
     }
 }
 
@@ -108,6 +114,8 @@ void updateItem() {
     bool found = false;
     for (auto& item : inventory) {
         if (item.name == name) {
+            cout << "Enter new quantity: ";
+            cin >> item.quantity;
             cout << "Enter new price: ";
             cin >> item.price;
             cout << "Item updated successfully.\n";
@@ -134,9 +142,11 @@ void deleteItem() {
             it = inventory.erase(it);
             cout << "Item deleted successfully.\n";
             return;
-        } else {
+        }
+        else {
             ++it;
         }
     }
     cout << "Item not found.\n";
 }
+
