@@ -63,18 +63,30 @@ int main() {
 
 void loadInventory() {
     ifstream file("inventory.txt");
+    if (!file) {
+        cerr << "Error opening file.\n";
+        return;
+    }
+
     InventoryItem item;
     while (file >> item.name >> item.category >> item.quantity >> item.price) {
         inventory.push_back(item);
     }
+
     file.close();
 }
 
 void saveInventory() {
     ofstream file("inventory.txt");
+    if (!file) {
+        cerr << "Error opening file.\n";
+        return;
+    }
+
     for (const auto& item : inventory) {
         file << item.name << ' ' << item.category << ' ' << item.quantity << ' ' << item.price << '\n';
     }
+
     file.close();
 }
 
@@ -88,6 +100,7 @@ void addItem() {
     cin >> item.quantity;
     cout << "Enter item price: ";
     cin >> item.price;
+
     inventory.push_back(item);
     cout << "Item added successfully.\n";
 }
@@ -97,6 +110,7 @@ void viewInventory() {
         cout << "Inventory is empty.\n";
         return;
     }
+
     cout << "===== Inventory List =====\n";
     for (const auto& item : inventory) {
         cout << "Name: " << item.name << ", Category: " << item.category << ", Quantity: " << item.quantity << ", Price: " << item.price << '\n';
@@ -108,9 +122,11 @@ void updateItem() {
         cout << "Inventory is empty. Cannot update.\n";
         return;
     }
+
     string name;
     cout << "Enter name of item to update: ";
     cin >> name;
+
     bool found = false;
     for (auto& item : inventory) {
         if (item.name == name) {
@@ -123,6 +139,7 @@ void updateItem() {
             break;
         }
     }
+
     if (!found) {
         cout << "Item not found.\n";
     }
@@ -133,9 +150,11 @@ void deleteItem() {
         cout << "Inventory is empty. Cannot delete.\n";
         return;
     }
+
     string name;
     cout << "Enter name of item to delete: ";
     cin >> name;
+
     auto it = inventory.begin();
     while (it != inventory.end()) {
         if (it->name == name) {
@@ -147,6 +166,7 @@ void deleteItem() {
             ++it;
         }
     }
+
     cout << "Item not found.\n";
 }
 
