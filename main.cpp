@@ -17,11 +17,11 @@ vector<InventoryItem> inventory; // Глобальный вектор для хранения инвентаря
 
 // Прототипы функций
 void loadInventory();  // Функция загрузки инвентаря из файла
-void saveInventory();  // Функция сохранения инвентаря в файл
-void addItem();        // Функция добавления нового элемента
-void viewInventory();  // Функция просмотра всех элементов
-void updateItem();     // Функция обновления элемента
-void deleteItem();     // Функция удаления элемента
+void saveInventory(); // Функция сохранения инвентаря в файл
+void addItem();       
+void viewInventory(); 
+void updateItem();    
+void deleteItem();    
 
 int main() {
     loadInventory(); // Загрузка данных инвентаря из файла при запуске программы
